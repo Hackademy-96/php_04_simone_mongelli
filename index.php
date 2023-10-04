@@ -93,7 +93,7 @@
 // $batman3->pulstanteAttacca();
 
 
- abstract class Computer{
+ class Computer{
     
     public $ram;
     public $schedaMadre;
@@ -109,13 +109,21 @@
         $this->schedaVideo = $_schedaVideo;
         $this->dissipatore = $_dissipatore;
     }
-    abstract public function componenti();
+
+    public function stampaComponenti(){
+        $this->ram->componenti();
+        $this->schedaMadre->componenti();
+        $this->schedaVideo->componenti();
+        $this->dissipatore->componenti();
+        $this->cpu->componenti();
+    }
+    
 }
 
- class Ram extends Computer{
-     public function componenti(){
-        echo"io ti immagazzino le informazioni di un programma \n "; 
-    }
+ abstract class Ram {
+    abstract public function componenti();
+       
+    
 }
 class ModelloRam8 extends Ram{
     public function componenti(){
@@ -129,10 +137,8 @@ class ModelloRam16 extends Ram{
     }
 }
 
-class SchedaMadre extends Computer{
-    public function componenti(){
-        echo"io permetto lo scambio di dati tra CPU, RAM, HARD DISK \n";
-    }
+abstract class SchedaMadre {
+    abstract public function componenti();
 }
 
 class ModelloShedaMadreI3 extends SchedaMadre{
@@ -151,25 +157,26 @@ class ModelloShedaMadreI9 extends SchedaMadre{
     }
 }
 
-class Cpu extends Computer{
+class Cpu {
     public function componenti(){
         echo "io sono l'unità centrale di elaborazione \n";
     }
 }
 
-class SchedaVideo extends Computer{
+class SchedaVideo {
     public function componenti(){
         echo"io sono responsabile della rappresentazione delle immagini sullo schermo \n";
     }
 }
 
-class Dissipatore extends Computer{
+class Dissipatore {
     public function componenti(){
         echo"io ti raffreddo tutto ";
     }
 }
 
 
-$builtPc1 = new Computer(new Ram(),new SchedaMadre(), new Cpu(), new SchedaVideo(), new Dissipatore());
-
-var_dump($builtPc1);
+$builtPc1 = new Computer(new ModelloRam8,new ModelloShedaMadreI3, new Cpu, new SchedaVideo, new Dissipatore);
+$builtPc1->stampaComponenti();
+$builtPc2 = new Computer(new ModelloRam16,new ModelloShedaMadreI5, new Cpu, new SchedaVideo, new Dissipatore);
+$builtPc2->stampaComponenti();
